@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ListTodosComponent } from './components/ListTodosComponent';
+import { ButtonComponent } from './components/ButtonComponent';
 
 interface Todo {
   id: number;
@@ -41,7 +42,7 @@ const App = () => {
   };
 
   const onDeleteTodo = (todo: Todo) => {
-    setListTodos(listTodos.filter((t) => t.id!== todo.id));
+    setListTodos(listTodos.filter((t) => t.id !== todo.id));
   };
 
   return (
@@ -61,7 +62,7 @@ const App = () => {
       />
 
       <input type="text" value={todo} onChange={handleChange} />
-      <button onClick={() => onAddTask(todo)}>Agregar</button>
+      <ButtonComponent label="Agregar" onClick={() => onAddTask(todo)} />
     </>
   );
 };
