@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { Button, TextField } from '@mui/material';
 import { ListTodosComponent } from './components/ListTodosComponent';
-import { ButtonComponent } from './components/ButtonComponent';
+import { useState } from 'react';
 
 interface Todo {
   id: number;
@@ -61,8 +61,19 @@ const App = () => {
         onDeleteTodo={onDeleteTodo}
       />
 
-      <input type="text" value={todo} onChange={handleChange} />
-      <ButtonComponent label="Agregar" onClick={() => onAddTask(todo)} />
+      <TextField
+        label="Tu tarea"
+        variant="outlined"
+        value={todo}
+        onChange={handleChange}
+      />
+      <Button
+        color="success"
+        variant="outlined"
+        onClick={() => onAddTask(todo)}
+      >
+        Agregar tarea
+      </Button>
     </>
   );
 };

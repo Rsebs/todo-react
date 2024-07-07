@@ -1,3 +1,8 @@
+import { Button } from '@mui/material';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+
 interface Todo {
   id: number;
   text: string;
@@ -15,7 +20,7 @@ export const ListTodosComponent = ({
   title,
   listTodos,
   onCompleteTodo,
-  onDeleteTodo
+  onDeleteTodo,
 }: Props) => {
   return (
     <>
@@ -25,12 +30,24 @@ export const ListTodosComponent = ({
         {listTodos.map((todo) => (
           <li key={todo.id} style={{ color: todo.completed ? 'green' : 'red' }}>
             {todo.text}
-            <button onClick={() => onCompleteTodo(todo)}>
-              Toggle Completed
-            </button>
-            <button onClick={() => onDeleteTodo(todo)}>
-              Delete
-            </button>
+            <Button
+              variant="text"
+              color={todo.completed ? 'warning' : 'success'}
+              onClick={() => onCompleteTodo(todo)}
+            >
+              {todo.completed ? (
+                <RemoveCircleOutlineOutlinedIcon />
+              ) : (
+                <CheckCircleOutlineOutlinedIcon />
+              )}
+            </Button>
+            <Button
+              variant="text"
+              color="error"
+              onClick={() => onDeleteTodo(todo)}
+            >
+              <DeleteOutlineOutlinedIcon />
+            </Button>
           </li>
         ))}
       </ul>
