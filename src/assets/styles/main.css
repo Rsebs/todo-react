@@ -6,5 +6,5 @@ html {
   height: 100vh;
   display: grid;
   place-content: center;
-  @apply bg-zinc-800 bg-gradient-to-l from-cyan-800 to-slate-700 text-white;
+  @apply bg-gradient-to-b from-blue-300 to-blue-100;
 }

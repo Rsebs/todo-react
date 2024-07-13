@@ -25,7 +25,7 @@ const App = () => {
     setListTodos([
       ...listTodos,
       {
-        id: listTodos.length + 1,
+        id: Math.ceil(Math.random() * 100000),
         text: task,
         completed: false,
       },
@@ -47,33 +47,41 @@ const App = () => {
 
   return (
     <>
-      <ListTodosComponent
-        title="Por hacer"
-        listTodos={listTodos.filter((todo) => !todo.completed)}
-        onCompleteTodo={onCompleteTodo}
-        onDeleteTodo={onDeleteTodo}
-      />
+      <h1 className="text-3xl text-center mb-9 uppercase">To-Do List</h1>
+      <div className="flex flex-col place-items-center gap-6 mb-5">
+        <TextField
+          label="Tu tarea"
+          variant="outlined"
+          value={todo}
+          fullWidth
+          color="primary"
+          onChange={handleChange}
+          onKeyDown={(e) => e.key === 'Enter' && onAddTask(todo)}
+        />
+        <Button
+          color="success"
+          variant="contained"
+          onClick={() => onAddTask(todo)}
+        >
+          Agregar tarea
+        </Button>
+      </div>
 
-      <ListTodosComponent
-        title="Completadas"
-        listTodos={listTodos.filter((todo) => todo.completed)}
-        onCompleteTodo={onCompleteTodo}
-        onDeleteTodo={onDeleteTodo}
-      />
+      <div className="flex gap-3">
+        <ListTodosComponent
+          title="Por hacer"
+          listTodos={listTodos.filter((todo) => !todo.completed)}
+          onCompleteTodo={onCompleteTodo}
+          onDeleteTodo={onDeleteTodo}
+        />
 
-      <TextField
-        label="Tu tarea"
-        variant="outlined"
-        value={todo}
-        onChange={handleChange}
-      />
-      <Button
-        color="success"
-        variant="outlined"
-        onClick={() => onAddTask(todo)}
-      >
-        Agregar tarea
-      </Button>
+        <ListTodosComponent
+          title="Completadas"
+          listTodos={listTodos.filter((todo) => todo.completed)}
+          onCompleteTodo={onCompleteTodo}
+          onDeleteTodo={onDeleteTodo}
+        />
+      </div>
     </>
   );
 };

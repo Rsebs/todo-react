@@ -24,33 +24,48 @@ export const ListTodosComponent = ({
 }: Props) => {
   return (
     <>
-      <p>{title}</p>
+      <div className="bg-blue-50 border border-blue-300 rounded-lg min-h-96 w-96">
+        <div className="bg-slate-400 p-1">
+          <p className="text-md text-center uppercase mb-2">{title}</p>
+        </div>
 
-      <ul>
-        {listTodos.map((todo) => (
-          <li key={todo.id} style={{ color: todo.completed ? 'green' : 'red' }}>
-            {todo.text}
-            <Button
-              variant="text"
-              color={todo.completed ? 'warning' : 'success'}
-              onClick={() => onCompleteTodo(todo)}
-            >
-              {todo.completed ? (
-                <RemoveCircleOutlineOutlinedIcon />
-              ) : (
-                <CheckCircleOutlineOutlinedIcon />
-              )}
-            </Button>
-            <Button
-              variant="text"
-              color="error"
-              onClick={() => onDeleteTodo(todo)}
-            >
-              <DeleteOutlineOutlinedIcon />
-            </Button>
-          </li>
-        ))}
-      </ul>
+        <div className="p-3">
+          <ol>
+            {listTodos.map((todo) => (
+              <li
+                key={todo.id}
+                className={`grid grid-cols-2 gap-4 ${
+                  todo.completed ? 'text-green-600' : 'text-red-600'
+                }`}
+              >
+                <p>
+                  <span style={{ fontWeight: 'bold' }}>-</span> {todo.text}
+                </p>
+                <div className="flex justify-end items-center">
+                  <Button
+                    variant="text"
+                    color={todo.completed ? 'warning' : 'success'}
+                    onClick={() => onCompleteTodo(todo)}
+                  >
+                    {todo.completed ? (
+                      <RemoveCircleOutlineOutlinedIcon />
+                    ) : (
+                      <CheckCircleOutlineOutlinedIcon />
+                    )}
+                  </Button>
+                  <Button
+                    variant="text"
+                    color="error"
+                    onClick={() => onDeleteTodo(todo)}
+                  >
+                    <DeleteOutlineOutlinedIcon />
+                  </Button>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
     </>
   );
 };
