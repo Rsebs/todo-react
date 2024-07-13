@@ -1,35 +1,89 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Button, TextField } from '@mui/material';
+import { ListTodosComponent } from './components/ListTodosComponent';
+import { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
+}
+
+const App = () => {
+  const [todo, setTodo] = useState('');
+  const [listTodos, setListTodos] = useState<Todo[]>([]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodo(e.target.value);
+  };
+
+  const onAddTask = (task: string) => {
+    if (task === '') {
+      alert('No puede agregar una tarea vacía');
+      return;
+    }
+
+    setListTodos([
+      ...listTodos,
+      {
+        id: Math.ceil(Math.random() * 100000),
+        text: task,
+        completed: false,
+      },
+    ]);
+    setTodo('');
+  };
+
+  const onCompleteTodo = (todo: Todo) => {
+    setListTodos(
+      listTodos.map((t) =>
+        t.id === todo.id ? { ...t, completed: !t.completed } : t
+      )
+    );
+  };
+
+  const onDeleteTodo = (todo: Todo) => {
+    setListTodos(listTodos.filter((t) => t.id !== todo.id));
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h1 className="text-3xl text-center mb-9 uppercase">To-Do List</h1>
+      <div className="flex flex-col place-items-center gap-6 mb-5">
+        <TextField
+          label="Tu tarea"
+          variant="outlined"
+          value={todo}
+          fullWidth
+          color="primary"
+          onChange={handleChange}
+          onKeyDown={(e) => e.key === 'Enter' && onAddTask(todo)}
+        />
+        <Button
+          color="success"
+          variant="contained"
+          onClick={() => onAddTask(todo)}
+        >
+          Agregar tarea
+        </Button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
 
-export default App
+      <div className="flex gap-3">
+        <ListTodosComponent
+          title="Por hacer"
+          listTodos={listTodos.filter((todo) => !todo.completed)}
+          onCompleteTodo={onCompleteTodo}
+          onDeleteTodo={onDeleteTodo}
+        />
+
+        <ListTodosComponent
+          title="Completadas"
+          listTodos={listTodos.filter((todo) => todo.completed)}
+          onCompleteTodo={onCompleteTodo}
+          onDeleteTodo={onDeleteTodo}
+        />
+      </div>
+    </>
+  );
+};
+
+export default App;
