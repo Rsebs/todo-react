@@ -1,37 +1,37 @@
-import { Button } from '@mui/material';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
-
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-}
+import { Button } from '@mui/material'
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined'
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined'
+import type { Todo } from '../types/todo.type'
 
 interface Props {
-  title: string;
-  listTodos: Todo[];
-  onCompleteTodo: (todo: Todo) => void;
-  onDeleteTodo: (todo: Todo) => void;
+  title: string
+  listTodos: Todo[]
+  updateTodo: (id: number) => void
+  deleteTodo: (id: number) => void
 }
 
-export const ListTodosComponent = ({
-  title,
-  listTodos,
-  onCompleteTodo,
-  onDeleteTodo,
-}: Props) => {
+const colorButton = (completed: boolean) => (completed ? 'warning' : 'success')
+const iconButton = (completed: boolean) =>
+  completed ? (
+    <RemoveCircleOutlineOutlinedIcon />
+  ) : (
+    <CheckCircleOutlineOutlinedIcon />
+  )
+
+export const ListTodosComponent = (props: Props) => {
   return (
     <>
       <div className="bg-blue-50 border border-blue-300 rounded-lg min-h-96 w-96">
         <div className="bg-slate-400 p-1">
-          <p className="text-md text-center uppercase mb-2">{title}</p>
+          <p className="text-md text-center uppercase mb-2 font-semibold">
+            {props.title}
+          </p>
         </div>
 
         <div className="p-3">
           <ol>
-            {listTodos.map((todo) => (
+            {props.listTodos.map((todo) => (
               <li
                 key={todo.id}
                 className={`grid grid-cols-2 gap-4 ${
@@ -39,24 +39,20 @@ export const ListTodosComponent = ({
                 }`}
               >
                 <p>
-                  <span style={{ fontWeight: 'bold' }}>-</span> {todo.text}
+                  <span>- {todo.title}</span>
                 </p>
                 <div className="flex justify-end items-center">
                   <Button
                     variant="text"
-                    color={todo.completed ? 'warning' : 'success'}
-                    onClick={() => onCompleteTodo(todo)}
+                    color={colorButton(todo.completed)}
+                    onClick={() => props.updateTodo(todo.id)}
                   >
-                    {todo.completed ? (
-                      <RemoveCircleOutlineOutlinedIcon />
-                    ) : (
-                      <CheckCircleOutlineOutlinedIcon />
-                    )}
+                    {iconButton(todo.completed)}
                   </Button>
                   <Button
                     variant="text"
                     color="error"
-                    onClick={() => onDeleteTodo(todo)}
+                    onClick={() => props.deleteTodo(todo.id)}
                   >
                     <DeleteOutlineOutlinedIcon />
                   </Button>
@@ -67,5 +63,5 @@ export const ListTodosComponent = ({
         </div>
       </div>
     </>
-  );
-};
+  )
+}
